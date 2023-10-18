@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     private int _Health = 3;
     private int _MaxHealth;
 
-    public event Action OnDeath;
+    public event Action OnDeath = delegate { };
 
     //public evenet Action<float> OnDeath; to add a float to the function
 
