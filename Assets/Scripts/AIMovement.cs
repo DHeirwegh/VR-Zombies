@@ -19,13 +19,12 @@ public class AIMovement : MonoBehaviour
     }
 
     //coroutine to change the target
-    //
     private IEnumerator IE_MoveToTarget()
     {
         while (true)
         {
             _NavMeshAgent.SetDestination(_Target.position);
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(_TargetUpdateTime);
         }
     }
 }
