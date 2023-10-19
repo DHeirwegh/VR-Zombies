@@ -4,9 +4,24 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
+    [SerializeField] private int _Damage = 1;
+    [SerializeField] private float _Cooldown = 1f;
+
+    private Coroutine _DamageCoroutine = null;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PlayerMovement>()) //change to layer
-            GetComponent<Weapon>().DoDamage(other.GetComponent<Health>());
+        if (_DamageCoroutine == null && other.GetComponent<PlayerMovement>())
+        {
+            var health = other.GetComponent<Health>();
+            if (health) _DamageCoroutine = StartCoroutine(IE_DoDamage(health));
+        }
+    }
+
+    private IEnumerator IE_DoDamage(Health h)
+    {
+        h.DoDamage(_Damage);
+        yield return new WaitForSeconds(_Cooldown);
+        _DamageCoroutine = null;
     }
 }

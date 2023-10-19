@@ -9,19 +9,21 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int _MaxBullets = -1; //-1 = infinite
     [SerializeField] private int _CurrBullets = 0;
     [SerializeField] private float _ReloadTime = 1f;
+    [SerializeField] private GameObject _bulletGO;
+    [SerializeField] private Transform _bulletSocket;
 
     private Coroutine _FireCoroutine = null;
     private Coroutine _ReloadingCoroutine = null;
 
-    public void DoDamage(Health otherHealth)
+    private void FireBullet()
     {
         if (_FireCoroutine == null && _ReloadingCoroutine == null)
-            _FireCoroutine = StartCoroutine(IE_DoDamage(otherHealth));
+            _FireCoroutine = StartCoroutine(IE_FireBullet());
     }
 
-    private IEnumerator IE_DoDamage(Health otherHealth)
+    private IEnumerator IE_FireBullet()
     {
-        otherHealth.DoDamage(_Damage);
+        Instantiate(_bulletGO);
         yield return new WaitForSeconds(1f / _Frequency);
         _FireCoroutine = null;
 
